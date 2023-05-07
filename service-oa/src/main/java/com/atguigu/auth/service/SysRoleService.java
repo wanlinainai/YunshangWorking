@@ -14,5 +14,5 @@ import java.util.Map;
 public interface SysRoleService extends IService<SysRole> {
     Map<String, Object> findRoleDataByUserId(Long userId);
 
-    void doAssign(AssginRoleVo assginRoleVo);
+    public void doAssign(AssginRoleVo assginRoleVo);
 }
