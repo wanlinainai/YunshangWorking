@@ -29,6 +29,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Autowired
     private SysUserRoleService sysUserRoleService;
+    
+    @Autowired
+    private SysRoleMapper sysRoleMapper;
 
     /**
      * 1、查询所有角色和 当前用户所属角色
@@ -40,7 +43,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public Map<String, Object> findRoleDataByUserId(Long userId) {
 
         //查询所有的角色，返回list集合
-        List<SysRole> allRoleList = baseMapper.selectList(null);
+//        List<SysRole> allRoleList = baseMapper.selectList(null);
+        List<SysRole> allRoleList = sysRoleMapper.selectList(null);
         //根据用户id查询角色用户关系表，查询userid对应的所有的角色id
         LambdaQueryWrapper<SysUserRole> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(SysUserRole::getUserId, userId);
