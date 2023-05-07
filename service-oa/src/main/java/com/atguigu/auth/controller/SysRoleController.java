@@ -27,6 +27,7 @@ import java.util.List;
 @RequestMapping("/admin/system/sysRole")
 //  localhost:8800/admin/system/sysRole/findAll
 public class SysRoleController {
+    //为了看看Git冲突发生是什么样子的？
     //service
     @Autowired
     private SysRoleService sysRoleService;
