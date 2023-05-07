@@ -29,7 +29,6 @@ import java.util.Map;
 @RequestMapping("/admin/system/sysRole")
 //  localhost:8800/admin/system/sysRole/findAll
 public class SysRoleController {
-    //为了看看Git冲突发生是什么样子的？
     //service
     @Autowired
     private SysRoleService sysRoleService;
@@ -41,7 +40,7 @@ public class SysRoleController {
         List<SysRole> list = sysRoleService.list();
         try {
             int a = 10 / 0;
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new LengfengException(20001, "我是冷锋，一名资深的狙击手需要2.5秒，我2.3秒。");
         }
         return Result.ok(list);
@@ -51,7 +50,7 @@ public class SysRoleController {
     @ApiOperation("条件分页查询")
     @GetMapping("{page}/{limit}")
     public Result pageQueryRole(@ApiParam("分页数") @PathVariable("page") Long page,
-                                @ApiParam("页大小")@PathVariable("limit") Long limit,
+                                @ApiParam("页大小") @PathVariable("limit") Long limit,
                                 SysRoleQueryVo sysRoleQueryVo) {
         Page<SysRole> pageParam = new Page<>(page, limit);
         LambdaQueryWrapper<SysRole> wrapper = new LambdaQueryWrapper<>();
@@ -73,7 +72,7 @@ public class SysRoleController {
         boolean is_success = sysRoleService.save(role);
         if (is_success) {
             return Result.ok();
-        }else{
+        } else {
             return Result.fail();
         }
     }
@@ -81,7 +80,7 @@ public class SysRoleController {
     //修改角色-根据id查询
     @ApiOperation("根据id查询")
     @GetMapping("get/{id}")
-    public Result get(@ApiParam("角色id")@PathVariable("id") Long id) {
+    public Result get(@ApiParam("角色id") @PathVariable("id") Long id) {
         SysRole sysRole = sysRoleService.getById(id);
         return Result.ok(sysRole);
     }
@@ -93,7 +92,7 @@ public class SysRoleController {
         boolean is_success = sysRoleService.updateById(role);
         if (is_success) {
             return Result.ok();
-        }else{
+        } else {
             return Result.fail();
         }
     }
@@ -101,11 +100,11 @@ public class SysRoleController {
     //删除
     @ApiOperation("删除角色")
     @DeleteMapping("/remove/{id}")
-    public Result remove(@ApiParam("角色id")@PathVariable("id") Long id) {
+    public Result remove(@ApiParam("角色id") @PathVariable("id") Long id) {
         boolean is_success = sysRoleService.removeById(id);
         if (is_success) {
             return Result.ok();
-        }else {
+        } else {
             return Result.fail();
         }
     }
@@ -117,23 +116,29 @@ public class SysRoleController {
         boolean is_success = sysRoleService.removeByIds(idList);
         if (is_success) {
             return Result.ok();
-        }else {
+        } else {
             return Result.fail();
         }
     }
-    // 1、查询所有角色 和 当前用户所属角色
-    @ApiOperation("根据用户获取角色数据")
+
+    //https://github.com/wanlinainai/YunshangWorking.git
+    //1、进入分配页面：获取已经分配的角色和全部角色，进行页面展示
+
+    //查询所有角色和 当前用户所属角色
+    @ApiOperation("获取角色")
     @GetMapping("/toAssign/{userId}")
-    public Result toAssign(@PathVariable Long userId) {
-        Map<String, Object> map = sysRoleService.findRoleDataByUserId(userId);
-        return Result.ok(map);
+    public Result toAssign(@PathVariable("userId") Long userId) {
+        Map<String, Object> roleMap = sysRoleService.findRoleDataByUserId(userId);
+        return Result.ok(roleMap);
     }
 
-    // 2、为用户分配角色
+    //2、保存分配角色：删除之前的分配橘色和保存现在的分配角色
     @ApiOperation("为用户分配角色")
     @PostMapping("/doAssign")
     public Result doAssign(@RequestBody AssginRoleVo assginRoleVo) {
         sysRoleService.doAssign(assginRoleVo);
-        return Result.ok();
+        return Result.ok().message("分配角色成功");
     }
+
+
 }

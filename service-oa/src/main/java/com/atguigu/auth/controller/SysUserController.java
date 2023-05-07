@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -115,13 +116,12 @@ public class SysUserController {
             return Result.fail().message("删除失败");
         }
     }
-    @ApiOperation(value = "更新状态")
-    @GetMapping("/updateStatus/{id}/{status}")
-    public Result updateStatus(@PathVariable Long id, @PathVariable Integer status){
+
+    @ApiOperation("更新状态")
+    @GetMapping("updateStatus/{id}/{status}")
+    public Result updateStatus(@ApiParam("更新状态的用户id") @PathVariable("id") Long id,
+                               @ApiParam("更新的状态(0:停用;1:可用)")@PathVariable("status") Integer status) {
         sysUserService.updateStatus(id, status);
         return Result.ok();
     }
-
-
 }
-

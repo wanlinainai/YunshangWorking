@@ -12,7 +12,9 @@ import java.util.Map;
  * @time 2023/5/4 16:31
  */
 public interface SysRoleService extends IService<SysRole> {
+    //1、查询所有角色和 当前用户所属角色
     Map<String, Object> findRoleDataByUserId(Long userId);
 
-    public void doAssign(AssginRoleVo assginRoleVo);
+    //2、保存分配角色：删除之前的分配橘色和保存现在的分配角色
+    void doAssign(AssginRoleVo assginRoleVo);
 }

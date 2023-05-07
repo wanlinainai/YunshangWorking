@@ -2,7 +2,6 @@ package com.atguigu.auth.mapper;
 
 import com.atguigu.model.system.SysUserRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -12,7 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @author atguigu
  * @since 2023-05-06
  */
-@Mapper
 public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
 
 }
