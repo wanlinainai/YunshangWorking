@@ -4,6 +4,7 @@ import com.atguigu.auth.service.SysRoleService;
 import com.atguigu.common.config.exception.LengfengException;
 import com.atguigu.common.result.Result;
 import com.atguigu.model.system.SysRole;
+import com.atguigu.vo.AssginRoleVo;
 import com.atguigu.vo.SysRoleQueryVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -16,6 +17,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 梁志超
@@ -117,6 +119,23 @@ public class SysRoleController {
         }else {
             return Result.fail();
         }
+    }
+
+    //1、进入分配页面：获取已经分配的角色和全部角色，进行页面展示
+
+    //查询所有角色和 当前用户所属角色
+    @ApiOperation("获取角色")
+    @GetMapping("/toAssign/{userId}")
+    public Result toAssign(@PathVariable("userId") Long userId) {
+        Map<String, Object> roleMap = sysRoleService.findRoleDataByUserId(userId);
+        return Result.ok(roleMap);
+    }
+    //2、保存分配角色：删除之前的分配橘色和保存现在的分配角色
+    @ApiOperation("为用户分配角色")
+    @PostMapping("/doAssign")
+    public Result doAssign(@RequestBody AssginRoleVo assginRoleVo) {
+        sysRoleService.doAssign(assginRoleVo);
+        return Result.ok().message("分配角色成功");
     }
 
 }

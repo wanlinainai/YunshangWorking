@@ -115,6 +115,5 @@ public class SysUserController {
             return Result.fail().message("删除失败");
         }
     }
-
 }
 
