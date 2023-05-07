@@ -4,6 +4,7 @@ import com.atguigu.auth.service.SysRoleService;
 import com.atguigu.common.config.exception.LengfengException;
 import com.atguigu.common.result.Result;
 import com.atguigu.model.system.SysRole;
+import com.atguigu.vo.AssginRoleVo;
 import com.atguigu.vo.SysRoleQueryVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -16,6 +17,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 梁志超
@@ -119,5 +121,19 @@ public class SysRoleController {
             return Result.fail();
         }
     }
+    // 1、查询所有角色 和 当前用户所属角色
+    @ApiOperation("根据用户获取角色数据")
+    @GetMapping("/toAssign/{userId}")
+    public Result toAssign(@PathVariable Long userId) {
+        Map<String, Object> map = sysRoleService.findRoleDataByUserId(userId);
+        return Result.ok(map);
+    }
 
+    // 2、为用户分配角色
+    @ApiOperation("为用户分配角色")
+    @PostMapping("/doAssign")
+    public Result doAssign(@RequestBody AssginRoleVo assginRoleVo) {
+        sysRoleService.doAssign(assginRoleVo);
+        return Result.ok();
+    }
 }
